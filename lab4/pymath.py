@@ -9,7 +9,7 @@ import math
 # ```
 def degrees_to_radians(degrees):
     # radians = math.radians(degrees)
-    radians = (degrees * math.pi) / 180;
+    radians = (degrees * math.pi) / 180
     return radians
 
 
@@ -45,8 +45,9 @@ print(f"The area of the trapezoid is: {area}")
 # The area of the polygon is: 625
 # ```
 
+
 def area_of_polygon(num_sides, side_length):
-    area = (num_sides * side_length ** 2) / (4 * math.tan(math.pi / num_sides))
+    area = (num_sides * side_length**2) / (4 * math.tan(math.pi / num_sides))
     return area
 
 

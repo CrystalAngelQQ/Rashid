@@ -2,6 +2,7 @@
 
 from functions import *
 from random import randint
+
 print(solve(35, 94))
 
 print(has_33([1, 3, 3]))
@@ -16,8 +17,8 @@ print(volume(10))
 
 print(unique_list([1, 2, 3, 2, 1]))
 
-print(is_palindrome('abcba'))
-print(is_palindrome('abcbad'))
+print(is_palindrome("abcba"))
+print(is_palindrome("abcbad"))
 
 histogram([4, 9, 7])
 

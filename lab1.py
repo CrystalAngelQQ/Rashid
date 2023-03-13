@@ -179,39 +179,19 @@ fruits.remove("banana")
 fruits = {"apple", "banana", "cherry"}
 fruits.discard("banana")
 
-car = {
-    "brand": "Ford",
-    "model": "Mustang",
-    "year": 1964
-}
+car = {"brand": "Ford", "model": "Mustang", "year": 1964}
 print(car.get("model"))
 
-car = {
-    "brand": "Ford",
-    "model": "Mustang",
-    "year": 1964
-}
+car = {"brand": "Ford", "model": "Mustang", "year": 1964}
 car["year"] = 2020
 
-car = {
-    "brand": "Ford",
-    "model": "Mustang",
-    "year": 1964
-}
+car = {"brand": "Ford", "model": "Mustang", "year": 1964}
 car["color"] = "red"
 
-car = {
-    "brand": "Ford",
-    "model": "Mustang",
-    "year": 1964
-}
+car = {"brand": "Ford", "model": "Mustang", "year": 1964}
 car.pop("model")
 
-car = {
-    "brand": "Ford",
-    "model": "Mustang",
-    "year": 1964
-}
+car = {"brand": "Ford", "model": "Mustang", "year": 1964}
 car.clear()
 
 a = 50
@@ -249,7 +229,8 @@ if a == b or c == d:
 if 5 > 2:
     print("Five is greater than two!")
 
-if 5 > 2: print("Five is greater than two!")
+if 5 > 2:
+    print("Five is greater than two!")
 
 print("Yes") if 5 > 2 else print("No")
 
@@ -380,8 +361,8 @@ x = Student("Mike")
 # import mymodule as mx
 
 
-#import mymodule
-#print(dir(mymodule))
+# import mymodule
+# print(dir(mymodule))
 
 
-#from mymodule import person1
+# from mymodule import person1

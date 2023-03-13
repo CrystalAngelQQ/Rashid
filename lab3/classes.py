@@ -1,5 +1,6 @@
 import math
 
+
 # 1. Define a class which has at least two methods: getString: to get a string from console input printString: to
 # print the string in upper case.
 class Upper:
@@ -7,9 +8,9 @@ class Upper:
     def getString(self):
         return input()
 
-
     def printString(self, string):
         print(string.upper())
+
 
 # 2. Define a class named Shape and its subclass Square. The Square class has an init function which takes a length
 # as argument. Both classes have a area function which can print the area of the shape where Shape's area is 0 by
@@ -43,6 +44,7 @@ class Rectangle(Shape):
 #         a method show to display the coordinates of the point
 #         a method move to change these coordinates
 #         a method dist that computes the distance between 2 points
+
 
 class Point:
     def __init__(self, *dimensions):
@@ -90,10 +92,10 @@ class Account:
     def withdraw(self, money):
         new_balance = self.balance - money
         if new_balance < 0:
-
-            print(f'Мало, {new_balance}')
+            print(f"Мало, {new_balance}")
 
         self.balance = new_balance
+
 
 my_account = Account("Рашид", 0)
 my_account.deposit(200)
@@ -103,6 +105,6 @@ my_account.withdraw(400)
 
 # 6. Write a program which can filter prime numbers in a list by using filter function. Note: Use lambda to define
 # anonymous functions.
-is_prime = lambda x: all(x % i != 0 for i in range(2, int(x/2) + 1))
+is_prime = lambda x: all(x % i != 0 for i in range(2, int(x / 2) + 1))
 result = list(filter(is_prime, [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 13, 15, 17, 23]))
 print(f"Prime numbers: {result}")

@@ -54,39 +54,19 @@ fruits = {"apple", "banana", "cherry"}
 fruits.discard("banana")
 
 ## Python Dictionaries
-car = {
-    "brand": "Ford",
-    "model": "Mustang",
-    "year": 1964
-}
+car = {"brand": "Ford", "model": "Mustang", "year": 1964}
 print(car.get("model"))
 
-car = {
-    "brand": "Ford",
-    "model": "Mustang",
-    "year": 1964
-}
+car = {"brand": "Ford", "model": "Mustang", "year": 1964}
 car["year"] = 2020
 
-car = {
-    "brand": "Ford",
-    "model": "Mustang",
-    "year": 1964
-}
+car = {"brand": "Ford", "model": "Mustang", "year": 1964}
 car["color"] = "red"
 
-car = {
-    "brand": "Ford",
-    "model": "Mustang",
-    "year": 1964
-}
+car = {"brand": "Ford", "model": "Mustang", "year": 1964}
 car.pop("model")
 
-car = {
-    "brand": "Ford",
-    "model": "Mustang",
-    "year": 1964
-}
+car = {"brand": "Ford", "model": "Mustang", "year": 1964}
 car.clear()
 
 ## Python If... Else
@@ -126,7 +106,8 @@ if a == b or c == d:
 if 5 > 2:
     print("Five is greater than two!")
 
-if 5 > 2: print("Five is greater than two!")
+if 5 > 2:
+    print("Five is greater than two!")
 
 print("Yes") if 5 > 2 else print("No")
 
@@ -247,6 +228,7 @@ class Person:
 
 class Student(Person):
     pass
+
 
 x = Student("Mike")
 x.printname()

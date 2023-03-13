@@ -7,6 +7,7 @@ from itertools import permutations
 def convert_grams_to_ounces(grams):
     return grams * 28.3495231
 
+
 # 2.Read in a Fahrenheit temperature. Calculate and display the equivalent centigrade temperature. The following
 # formula is used for the conversion: C = (5 / 9) * (F – 32)
 def fahrenheit_to_celsius(faren):
@@ -25,7 +26,7 @@ def solve(numheads: int, numlegs: int):
 # 4.You are given list of numbers separated by spaces. Write a function filter_prime which will take list of numbers
 # as an agrument and returns only prime numbers from the list.
 def only_prime(numbers):
-    is_prime = lambda x: all(x % i != 0 for i in range(2, int(x/2) + 1))
+    is_prime = lambda x: all(x % i != 0 for i in range(2, int(x / 2) + 1))
     return list(filter(is_prime, numbers))
 
 
@@ -64,7 +65,7 @@ def has_33(nums):
 #     spy_game([1,0,2,4,0,5,7]) --> True
 #     spy_game([1,7,2,0,4,5,0]) --> False
 def spy_game(nums):
-    code = [0, 0, 7, 'x']
+    code = [0, 0, 7, "x"]
     for num in nums:
         if num == code[0]:
             code.pop(0)
@@ -73,7 +74,7 @@ def spy_game(nums):
 
 # 9. Write a function that computes the volume of a sphere given its radius.
 def volume(radius):
-    return (4 / 3) * (math.pi * (radius ** 3))
+    return (4 / 3) * (math.pi * (radius**3))
 
 
 # 10.Write a Python function that takes a list and returns a new list with unique elements of the first list. Note:
@@ -100,7 +101,7 @@ def is_palindrome(string):
 # *******
 def histogram(numbers):
     for i in numbers:
-        print('*' * i)
+        print("*" * i)
 
 
 # 13. Write a program able to play the "Guess the number" - game, where the number to be guessed is randomly chosen
@@ -122,6 +123,7 @@ def histogram(numbers):
 #
 #     14.
 #     Good job, KBTU! You guessed my number in 3 guesses!
+
 
 def game(number):
     print("Hello! What is your name?")

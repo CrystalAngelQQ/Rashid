@@ -4,7 +4,7 @@ def n_squares(n):
     # return (i ** 2 for i in range(0, N + 1))
     i = 0
     while i <= n:
-        yield i ** 2
+        yield i**2
         i += 1
 
 
@@ -36,7 +36,7 @@ def squares(a, b):
     # return (i ** 2 for i in range(a, b + 1))
     i = a
     while i <= b:
-        yield i ** 2
+        yield i**2
         i += 1
 
 

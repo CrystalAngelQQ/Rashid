@@ -14,7 +14,7 @@ print(f"Five days ago: {subtract_five_days()}")
 
 # 2. Write a Python program to print yesterday, today, tomorrow.
 def yesterday_today_tomorrow():
-    today = datetime.datetime.today();
+    today = datetime.datetime.today()
     one_day = datetime.timedelta(days=1)
     yesterday = today - one_day
     tomorrow = today + one_day
@@ -41,4 +41,6 @@ def diff_in_seconds(date1, date2):
     return date_diff.total_seconds()
 
 
-print(f"Difference between 'after 10 days' and 'today', in seconds: {diff_in_seconds(today_with_microseconds + datetime.timedelta(days=10), today_with_microseconds)}")
+print(
+    f"Difference between 'after 10 days' and 'today', in seconds: {diff_in_seconds(today_with_microseconds + datetime.timedelta(days=10), today_with_microseconds)}"
+)
