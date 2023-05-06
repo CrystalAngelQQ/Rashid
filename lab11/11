@@ -1,0 +1,292 @@
+#!/usr/bin/python3
+import psycopg2cffi as psycopg2
+
+from config import config
+
+
+# Создать таблицу данных "phonebook" с полями
+# ник (name) и номер телефона (number)
+# в базе данных "cur
+def create_table(cur):
+    command = """
+        CREATE TABLE IF NOT EXISTS phonebook (
+            name VARCHAR(255) NOT NULL,
+            number INTEGER NOT NULL);
+        """
+    cur.execute(command)
+
+
+# 1
+# Загрузить из файла "phonebook.csv"
+# в таблицу данных "phonebook".
+def load_from_file(cur):
+    command = """
+        COPY phonebook(name, number)
+        FROM 'phonebook.csv'
+        DELIMITER ','
+        CSV HEADER;
+        """
+    cur.execute(command)
+
+
+# 2
+# Добавить нового пользователя в таблицу данных "phonebook"
+# с ником "name" и номером телефона "number".
+def enter_name_number(cur, name, number):
+    new_name = str(name)
+    new_number = int(
+        number
+    )  # Сконвертировать их в строку и число, если не получится - питон даст полезную ошибку
+    command = f"""
+        INSERT INTO phonebook(name, number)
+        VALUES ('{new_name}', {new_number});
+        """
+    cur.execute(command)
+
+
+# 3
+# Обновить у пользователя (по нику) его номер.
+def update_number_for_nick(cur, filter_name, new_number):
+    filter_name = str(filter_name)
+    new_number = int(
+        new_number
+    )  # Сконвертировать их в строку и число, если не получится - питон даст полезную ошибку
+    command = f"""
+        UPDATE phonebook
+        SET number={new_number}
+        WHERE name='{filter_name}';
+        """
+    cur.execute(command)
+
+
+# 4
+# Обновить у пользователя (по номеру) его ник.
+def update_nick_for_number(cur, new_name, filter_number):
+    new_name = str(new_name)
+    filter_number = int(
+        filter_number
+    )  # Сконвертировать их в строку и число, если не получится - питон даст полезную ошибку
+    command = f"""
+        UPDATE phonebook
+        SET name='{new_name}'
+        WHERE number={filter_number};
+        """
+    cur.execute(command)
+
+
+# 5
+# Вывести список всех пользователей с таким номером
+def get_by_number(cur, filter_number):
+    filter_number = int(filter_number)
+    command = f"""
+        SELECT * FROM phonebook
+        WHERE number={filter_number}
+        """
+    cur.execute(command)
+    printed_lines = cur.fetchall()
+    for printed_line in printed_lines:
+        print(f"{printed_line}")
+
+
+# 6
+# Вывести список всех пользователей с таким ником
+def get_by_nick(cur, filter_nick):
+    filter_nick = str(filter_nick)
+    command = f"""
+        SELECT * FROM phonebook
+        WHERE name='{filter_nick}'
+        """
+    cur.execute(command)
+    printed_lines = cur.fetchall()
+    for printed_line in printed_lines:
+        print(f"{printed_line}")
+
+
+# 7
+# Удалить всех пользователей с таким номером
+def delete_by_number(cur, filter_number):
+    filter_number = int(filter_number)
+    command = f"""
+        DELETE FROM phonebook
+        WHERE number={filter_number}
+        """
+    cur.execute(command)
+
+
+# 8
+# Удалить всех пользователей с таким ником
+def delete_by_nick(cur, filter_nick):
+    filter_nick = str(filter_nick)
+    command = f"""
+        DELETE FROM phonebook
+        WHERE name='{filter_nick}';
+        """
+    cur.execute(command)
+
+
+# 9
+# Вернуть всех пользователей с фильтром по нику
+def filter_by_param(cur, filter_part_of_name):
+    command = f"""
+        SELECT * FROM phonebook
+        WHERE name SIMILAR TO '{filter_part_of_name}';
+    """
+    cur.execute(command)
+    list_of_users = cur.fetchall()
+    for user in list_of_users:
+        print(f"{user}")
+
+
+# 10
+# Вернуть всех пользователей с фильтром по номеру
+def filter_by_number(cur, filter_part_of_number):
+    command = f"""
+       SELECT * FROM phonebook
+       WHERE number SIMILAR TO {filter_part_of_number};
+    """
+    cur.execute(command)
+    list_of_users = cur.fetchall()
+    for user in list_of_users:
+        print(f"{user}")
+
+
+# 11
+# Создать нового пользователя с таким ником или обновить существующего
+def create_or_update_user(cur, name, number):
+    command = f"""
+        SELECT * FROM phonebook
+        WHERE name='{name}';
+    """
+    cur.execute(command)
+    list_of_users = cur.fetchall()
+    # Если список пустой и такого пользователя нет
+    if len(list_of_users) == 0:
+        # создать его
+        enter_name_number(cur, name, number)
+    else:
+        # Этот пользователь уже существует
+        update_number_for_nick(cur, name, number)
+
+
+# 12
+# Зарегистрировать список пользователей
+def enter_many_users(cur, list_of_names_and_numbers):
+    incorrect_numbers = list()
+    for name, number in list_of_names_and_numbers:
+        try:
+            number = int(number)
+        except:
+            print(
+                f"Пропускаю пользователя '{name}', его номер '{number}' неверный. Добавляю в список плохих номеров!"
+            )
+            incorrect_numbers.append(number)
+            continue
+        create_or_update_user(cur, name, number)
+    print("Список неверных номеров: ")
+    for incorrect_number in incorrect_numbers:
+        print(f"{incorrect_number}")
+
+
+# 13
+# Получить список пользователей с пагинацией (по лимиту и отступу):
+def query_and_paginat(cur, limit_per_page, offset_per_line):
+    command = f"""
+            SELECT * FROM phonebook
+            LIMIT {limit_per_page} OFFSET {offset_per_line};
+        """
+    cur.execute(command)
+    users = cur.fetchall()
+    for user in users:
+        print(user)
+
+
+def connect():
+    params = config()
+    conn = psycopg2.connect(**params)  # подключение
+    cur = conn.cursor()  # доступ
+
+    # Создать таблицу
+    create_table(cur)
+
+    print("Какой режим вы хотите выбрать? Введите число...")
+    print("1) Загрузить из файла CSV")
+    print("2) Добавить нового пользователя")
+    print("3) Обновить у пользователя (по нику) его номер.")
+    print("4) Обновить у пользователя (по номеру) его ник.")
+    print("5) Вывести список всех пользователей с таким номером")
+    print("6) Вывести список всех пользователей с таким ником")
+    print("7) Удалить всех пользователей с таким номером")
+    print("8) Удалить всех пользователей с таким ником")
+    print("9) Вернуть всех пользователей с фильтром по нику")
+    print("10) Вернуть всех пользователей с фильтром по номеру")
+    print("11) Создать нового пользователя с таким ником или обновить существующего")
+    print("12) Зарегистрировать список пользователей")
+    print("13) Получить список пользователей с пагинацией (по лимиту и отступу):")
+    mode = int(input("Введите число... "))
+    # Это как switch в C++
+    match mode:
+        case 1:
+            load_from_file(cur)
+        case 2:
+            name = input("Введите имя нового пользователя: ")
+            number = input("Введите его номре: ")
+            enter_name_number(cur, name, number)
+        case 3:
+            filter_name = input("Введите ник нужного пользователя: ")
+            new_number = input("Введите новый номер: ")
+            update_number_for_nick(cur, filter_name, new_number)
+        case 4:
+            filter_number = input("Введите номер нужного пользователя: ")
+            new_nick = input("Введите новый ник: ")
+            update_nick_for_number(cur, new_nick, filter_number)
+        case 5:
+            filter_number = input("Введите номер: ")
+            get_by_number(cur, filter_number)
+        case 6:
+            filter_nick = input("Введите ник: ")
+            get_by_nick(cur, filter_nick)
+        case 7:
+            filter_number = input("Введите номер: ")
+            delete_by_number(cur, filter_number)
+        case 8:
+            filter_nick = input("Введите ник: ")
+            delete_by_nick(cur, filter_nick)
+        case 9:
+            part_of_name = input("Введите часть имени: ")
+            filter_by_param(cur, part_of_name)
+        case 10:
+            part_of_number = int(input("Введите часть номера телефона: "))
+            filter_by_number(cur, part_of_number)
+        case 11:
+            name = input("Введите имя нового пользователя: ")
+            number = input("Введите его номре: ")
+            create_or_update_user(cur, name, number)
+        case 12:
+            list_of_users = list()
+            while True:
+                name = input("Введите имя пользователя или q, чтобы закончить список: ")
+                if name == "q":
+                    break
+                else:
+                    number = input("Введите номер телефона: ")
+                    name_and_number = (name, number)  # сунуть имя и номер в один элемент
+                    list_of_users.append(name_and_number)  # добавить в список
+            enter_many_users(cur, list_of_users)
+        case 13:
+            limit_per_page = int(input("Введите максимальное количество напечатанных строк: "))
+            offset_per_line = int(input("С какой строки начать поиск (сколько строк пропустить): "))
+            query_and_paginat(cur, limit_per_page, offset_per_line)
+        case _:  # если другие условия не подходят
+            print("Неизвестное действие!")
+
+    conn.commit()  # Сохранить в базу данных
+    cur.close()  # Закрыть доступ
+    # Если conn (подключение) ещё существует
+    if conn is not None:
+        conn.close()  # Закрыть подключение
+        print("Подключение к базе данных закрыто.")
+
+
+# Главная функция (как main в C++) это curect
+if __name__ == "__main__":
+    connect()
